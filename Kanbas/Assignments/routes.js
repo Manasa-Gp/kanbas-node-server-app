@@ -3,7 +3,7 @@ export default function AssignmentRoutes(app) {
   app.put("/api/assignments/:aid", (req, res) => {
     const { aid } = req.params;
     const AssignIndex = db.assignments.findIndex(
-      (a) => a._id === aid);
+      (a) => a.id === aid);
     db.assignments[AssignIndex] = {
       ...db.assignments[AssignIndex],
       ...req.body
@@ -12,7 +12,7 @@ export default function AssignmentRoutes(app) {
   });
   app.delete("/api/assignments/:aid", (req, res) => {
     const { aid } = req.params;
-    db.assignments = db.assignments.filter(((a) => a._id !== aid));
+    db.assignments = db.assignments.filter(((a) => a.id !== aid));
     res.sendStatus(200);
   });
   app.post("/api/courses/:cid/assignments", (req, res) => {
@@ -26,7 +26,9 @@ export default function AssignmentRoutes(app) {
   });
   app.get("/api/courses/:cid/assignments", (req, res) => {
     const { cid } = req.params;
+    console.log(cid)
     const assignments = db.assignments.filter((a) => a.course === cid);
+    console.log(assignments)
     res.json(assignments);
   });
 }
