@@ -28,7 +28,6 @@ export default function AssignmentRoutes(app) {
     const { cid } = req.params;
     console.log(cid)
     const assignments = db.assignments.filter((a) => a.course === cid);
-    console.log(assignments)
     res.json(assignments);
   });
 }
