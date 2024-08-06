@@ -110,10 +110,37 @@ export default function QuizRoutes(app) {
         res.json(quizzes);
     };
 
+    const addQuestion = async (req, res) => {
+        const quizId = req.params.quizId;
+        const question = req.body;
+        const status = await dao.addQuestionToQuiz(quizId, question);
+        res.json(status);
+    };
+
+    const removeQuestion = async (req, res) => {
+        const { quizId, questionId } = req.params;
+        const status = await dao.removeQuestionFromQuiz(quizId, questionId);
+        res.json(status);
+    };
+
+    const updateQuestion = async (req, res) => {
+        const { quizId, questionId } = req.params;
+        const question = req.body;
+        const status = await dao.updateQuestionInQuiz(quizId, questionId, question);
+        res.json(status);
+    };
+
+
+
+
     app.post("/api/courses/:courseId/quizzes", createQuiz);
     app.get("/api/courses/:courseNumber/quizzes", findQuizzesForCourse); // Specific course quizzes
     app.get("/api/quizzes", findAllQuizzes); // Generic search
     app.get("/api/quizzes/:quizId", findQuizById);
     app.put("/api/quizzes/:quizId", updateQuiz);
     app.delete("/api/quizzes/:quizId", deleteQuiz);
+
+    app.post("/api/quizzes/:quizId/questions", addQuestion);
+    app.delete("/api/quizzes/:quizId/questions/:questionId", removeQuestion);
+    app.put("/api/quizzes/:quizId/questions/:questionId", updateQuestion);
 }
