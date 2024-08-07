@@ -7,9 +7,10 @@ const QuestionSchema = new mongoose.Schema({
         type: Map,
         of: String
     },
-    answer:String,
+    answer:[String],
     quiz: String,
-    points:Number
+    points:Number,
+    title:String
   });
 
 const QuizSchema = new mongoose.Schema({

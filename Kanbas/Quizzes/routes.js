@@ -60,6 +60,7 @@
 
 
 import * as dao from "./dao.js";
+import { htmlToText } from 'html-to-text';
 
 export default function QuizRoutes(app) {
 
@@ -89,6 +90,8 @@ export default function QuizRoutes(app) {
     const findQuizzesForCourse = async (req, res) => {
         const { courseNumber } = req.params;
         const quizzes = await dao.findCourseQuizzes(courseNumber);
+        console.log(JSON.stringify(quizzes.questions, null, 2));
+
         res.json(quizzes);
     };
 
@@ -126,6 +129,15 @@ export default function QuizRoutes(app) {
     const updateQuestion = async (req, res) => {
         const { quizId, questionId } = req.params;
         const question = req.body;
+        console.log("q",question);
+        if (question.question) {
+            question.question = htmlToText(question.question, {
+              wordwrap: 130,
+            });
+          }
+          console.log("qq",question.question);
+
+
         const status = await dao.updateQuestionInQuiz(quizId, questionId, question);
         res.json(status);
     };
