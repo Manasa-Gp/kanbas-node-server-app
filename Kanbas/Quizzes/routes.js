@@ -142,8 +142,22 @@ export default function QuizRoutes(app) {
         res.json(status);
     };
 
+    const togglePublish = async (req, res)  => {
+        try {
+            const { qid } = req.params;
+            const { published } = req.body;
+            const updatedPublishedStatus = !published;
+            await dao.togglePublished(qid,updatedPublishedStatus);
+            res.sendStatus(204);
+            
+        } catch (error) {
+            console.error(error);
+            res.status(500).send("An error occurred while trying to toggle publish status of quiz");
+        }
+      };
+    
 
-
+    app.put("/api/quizzes/:qid/publish", togglePublish);
 
     app.post("/api/courses/:courseId/quizzes", createQuiz);
     app.get("/api/courses/:courseNumber/quizzes", findQuizzesForCourse); // Specific course quizzes

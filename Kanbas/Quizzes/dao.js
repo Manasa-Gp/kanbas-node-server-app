@@ -56,3 +56,4 @@ export const updateQuestionInQuiz = async (quizId, index, question) => {
         { $set: { [`questions.${index}`]: question } }
     );
 };
+export const togglePublished = (quizId, published) => model.updateOne({ _id: quizId }, { $set: { published } });
