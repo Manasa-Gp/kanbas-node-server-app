@@ -65,6 +65,7 @@ export default function UserRoutes(app) {
     req.session.destroy();
     res.sendStatus(200);
   };
+  
   const profile = async (req, res) => {
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
@@ -74,6 +75,22 @@ export default function UserRoutes(app) {
 
     res.json(currentUser);
   };
+
+  const getUserEnrollments = async (req, res) => {
+    try {
+      const enrollments = await dao.getUserEnrollmentsById(req.params.userId);
+      if (enrollments) {
+        res.json(enrollments);
+      } else {
+        res.status(404).json({ message: 'No enrollments found for this user' });
+      }
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+
+  app.get('/api/users/:userId/enrollments', getUserEnrollments);
+
   app.post("/api/users", createUser);
   app.get("/api/users", findAllUsers);
   app.get("/api/users/:userId", findUserById);
@@ -83,4 +100,5 @@ export default function UserRoutes(app) {
   app.post("/api/users/signin", signin);
   app.post("/api/users/signout", signout);
   app.post("/api/users/profile", profile);
+
 }

@@ -29,3 +29,12 @@ export const updateUser = (userId, user) =>
 
 export const deleteUser = (userId) => model.deleteOne({ _id: userId });
 
+export const getUserEnrollmentsById = async (userId) => {
+  try {
+    const user = await model.findById(userId, 'enrollment').exec();
+    return user ? user.enrollment : null;
+  } catch (error) {
+    console.error('Error retrieving user enrollments by ID:', error);
+    throw error;
+  }
+};

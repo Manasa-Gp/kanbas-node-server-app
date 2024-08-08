@@ -15,3 +15,7 @@ export const updateCourse = async (cid,course ) =>
 
 export const deleteCourse = async(cid) => 
   await courseModel.findByIdAndDelete(cid);
+
+export function findCoursesByIds(ids) {
+    return courseModel.find({ id: { $in: ids } });
+  };
