@@ -78,7 +78,9 @@ export default function UserRoutes(app) {
 
   const getUserEnrollments = async (req, res) => {
     try {
-      const enrollments = await dao.getUserEnrollmentsById(req.params.userId);
+      const user = await dao.findUserByUsername(req.params.username);
+      const enrollments = user.enrollment;
+
       if (enrollments) {
         res.json(enrollments);
       } else {
@@ -89,7 +91,7 @@ export default function UserRoutes(app) {
     }
   };
 
-  app.get('/api/users/:userId/enrollments', getUserEnrollments);
+  app.get('/api/users/:username/enrollments', getUserEnrollments);
 
   app.post("/api/users", createUser);
   app.get("/api/users", findAllUsers);
