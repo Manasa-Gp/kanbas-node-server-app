@@ -7,6 +7,7 @@ const quizAttemptSchema = new mongoose.Schema(
     course: String,
     quiz: String,
     score: Number,
+    number: Number,
     attempts: [[String]] // Specify attempts as an array of arrays of strings
   },
   { collection: "PastQuizattempts" } // Specifies the collection name in MongoDB

@@ -34,6 +34,7 @@ const QuizSchema = new mongoose.Schema({
     oneQuestionAtATime: Boolean,
     webcamRequired: Boolean,
     lockQuestionsAfterAnswering: Boolean,
+    howManyAttempts:Number,
     questions:[QuestionSchema]
 }, { collection: "quizzes" });
 
