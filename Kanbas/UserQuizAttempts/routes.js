@@ -23,14 +23,14 @@ export default function QuizAttemptRoutes(app) {
         {
           console.log("quizAttempt update route",req.body);
           const { qaid } = req.params; // Extract the qaid from the URL parameters
-          const { number,attempts } = req.body; // Extract the attempts from the request body
-          console.log("quizAttempt update route 2 check",qaid,attempts,number);
+          const { number,attempts,score } = req.body; // Extract the attempts from the request body
+          console.log("quizAttempt update route 2 check",qaid,attempts,number,score);
 
           if (!Array.isArray(attempts)) {
             return res.status(400).json({ error: 'Invalid attempts data' });
           }
     
-          const updatedAttempt = await dao.updateAttempts(qaid, attempts,number);
+          const updatedAttempt = await dao.updateAttempts(qaid, attempts,number,score);
           console.log("quizAttempt update route", updatedAttempt);
 
           res.status(200).json(updatedAttempt);

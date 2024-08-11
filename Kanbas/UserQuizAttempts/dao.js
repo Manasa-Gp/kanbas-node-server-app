@@ -21,12 +21,12 @@ export const createQuizAttempt = async (quizAttempt) => {
   };
 
 
-  export const updateAttempts = async (qaid, attempts,number) => {
+  export const updateAttempts = async (qaid, attempts,number,score) => {
     try {
       console.log("quizAttempt update dao", qaid,attempts);
       const updatedAttempt = await attemptmodel.findByIdAndUpdate(
         qaid,
-        { $set: { attempts,number } },
+        { $set: { attempts,number,score } },
             );
       console.log("quizAttempt update dao", updatedAttempt);
 
