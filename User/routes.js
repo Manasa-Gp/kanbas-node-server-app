@@ -80,7 +80,7 @@ export default function UserRoutes(app) {
     try {
       const user = await dao.findUserByUsername(req.params.username);
       const enrollments = user.enrollment;
-
+      
       if (enrollments) {
         res.json(enrollments);
       } else {
@@ -90,6 +90,19 @@ export default function UserRoutes(app) {
       res.status(500).json({ message: error.message });
     }
   };
+
+  app.post('/api/users/:username/enroll', async (req, res) => {
+    const { username } = req.params;
+    const { courseId } = req.body;
+    console.log("route");
+    const result = await dao.updateUserEnrollments(username, courseId);
+    if (result.error) {
+      res.status(400).json({ message: result.error });
+    } else {
+      res.json({ message: result.message });
+    }
+  });
+  
 
   app.get('/api/users/:username/enrollments', getUserEnrollments);
 

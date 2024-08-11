@@ -35,16 +35,25 @@ export const addQuestionToQuiz = async (quizId, question) => {
     );
 };
     
-export const removeQuestionFromQuiz = async (quizId, questionId) => {
+export const removeQuestionFromQuizByIndex = async (quizId, index) => {
     return model.updateOne(
+        { _id: quizId },
+        { $unset: { [`questions.${index}`]: "" } }
+    ).then(() => {
+        // Optionally, you might need to compact the array after removing the element.
+        return model.updateOne(
             { _id: quizId },
-            { $pull: { questions: { _id: questionId } } }
-    );
+            { $pull: { questions: null } } // This will remove any null values left in the array.
+        );
+    });
 };
     
-export const updateQuestionInQuiz = async (quizId, questionId, question) => {
+export const updateQuestionInQuiz = async (quizId, index, question) => {
+    console.log("dao update question");
+    console.log(question);
     return model.updateOne(
-            { _id: quizId, "questions._id": questionId },
-            { $set: { "questions.$": question } }
+        { _id: quizId },
+        { $set: { [`questions.${index}`]: question } }
     );
 };
+export const togglePublished = (quizId, published) => model.updateOne({ _id: quizId }, { $set: { published } });

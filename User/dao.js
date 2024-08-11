@@ -38,3 +38,24 @@ export const getUserEnrollmentsById = async (username) => {
     throw error;
   }
 };
+
+export const updateUserEnrollments = async (username, courseId) => {
+  try {
+    console.log("dao user");
+    const user = await model.findOne({ username });
+    if (!user) return { error: 'User not found' };
+
+    if (user.enrollment.includes(courseId)) {
+      return { error: 'Already enrolled in this course' };
+    }
+    console.log("dao");
+
+
+    user.enrollment.push(courseId);
+    await user.save();
+    return { message: 'Successfully enrolled in course' };
+  } catch (error) {
+    console.error('Error updating user enrollments:', error);
+    return { error: 'Failed to enroll in course' };
+  }
+};
